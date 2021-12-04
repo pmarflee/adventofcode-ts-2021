@@ -1,11 +1,20 @@
 export default class Day1 {
-    static calculatePart1(numbers: number[]) : number {
-        let count = 0;
-        for (var i = 1; i < numbers.length; i++) {
-            if (numbers[i] > numbers[i - 1]) {
-                count++;
-            }
-        }
-        return count;
+    public static calculatePart1(numbers: number[]) : number {
+        return Day1.countIncrements(numbers);
+    }
+
+    public static calculatePart2(numbers: number[]) : number {
+        return Day1.countIncrements(Day1.windows(3, numbers).map((w: number[]) => w.reduce((acc, n) => acc + n, 0)));
+    }
+
+    private static countIncrements(numbers: number[]) : number {
+        return Day1.windows(2, numbers).filter((w: number[]) => w[1] > w[0]).length;
+    }
+
+    private static windows(length: number, numbers: number[]) : number[][] {
+        return numbers.flatMap((_, i) =>
+            i <= numbers.length - length
+            ? [numbers.slice(i, i + length)]
+            : []);
     }
 }

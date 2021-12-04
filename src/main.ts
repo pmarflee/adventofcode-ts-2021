@@ -2,7 +2,13 @@ import * as Days from './days/index'
 import { readNumbers } from './util'
 
 export function runAllDays()  {
-  execute(1, 1, () => Days.Day1.calculatePart1(readNumbers('./input/day1.txt')));
+  day1();
+}
+
+function day1() {
+  let numbers = readNumbers('./input/day1.txt');
+  execute(1, 1, () => Days.Day1.calculatePart1(numbers));
+  execute(1, 2, () => Days.Day1.calculatePart2(numbers));
 }
 
 function execute(day: number, part: number, fn: () => number) {
