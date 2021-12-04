@@ -1,10 +1,14 @@
-export const delayMillis = (delayMs: number): Promise<void> => new Promise(resolve => setTimeout(resolve, delayMs));
+import * as Days from './days/index'
+import { readNumbers } from './util'
 
-export const greet = (name: string): string => `Hello ${name}`
+export function runAllDays()  {
+  execute(1, 1, () => Days.Day1.calculatePart1(readNumbers('./input/day1.txt')));
+}
 
-export const foo = async (): Promise<boolean> => {
-  console.log(greet('World'))
-  await delayMillis(1000)
-  console.log('done')
-  return true
+function execute(day: number, part: number, fn: () => number) {
+  let startTime = performance.now(),
+      result = fn(),
+      endTime = performance.now();
+
+  console.log(`Day ${day} Part ${part}: ${result} (${(endTime - startTime).toFixed(3)}ms)`);
 }
