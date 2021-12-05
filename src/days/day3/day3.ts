@@ -3,7 +3,7 @@ export default class Day3 {
         const counts = input
             .map(Day3.parse)
             .reduce((acc: number[], current: boolean[]) => {
-                for (var i = 0; i < current.length; i++) {
+                for (let i = 0; i < current.length; i++) {
                     if (current[i] === true) {
                         acc[i] = (acc[i] ?? 0) + 1;
                     }
