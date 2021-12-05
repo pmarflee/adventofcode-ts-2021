@@ -18,3 +18,7 @@ const numbers = [
 test('Test Part 1', () => {
     expect(Day.calculatePart1(numbers)).toBe(198);
 });
+
+test('Test Part 2', () => {
+    expect(Day.calculatePart2(numbers)).toBe(230);
+});
