@@ -10,10 +10,38 @@ export default class Day2 {
                 case Direction.Up:
                     return { horizontal: state.horizontal, depth: state.depth - i.distance };
             }
-        },
-        position = input
+        };
+        
+        return Day2.calculate(input, reducer, { horizontal: 0, depth: 0 });
+    }
+
+    public static calculatePart2(input: string[]) : number {
+        const reducer = (state: Position, i: Instruction) : Position =>
+        {
+            const aim = state.aim ?? 0;
+
+            switch (i.direction) {
+                case Direction.Forward:
+                    return { horizontal: state.horizontal + i.distance, 
+                             depth: state.depth + (aim * i.distance), 
+                             aim: aim };
+                case Direction.Down:
+                    return { horizontal: state.horizontal, depth: state.depth, aim: aim + i.distance };
+                case Direction.Up:
+                    return { horizontal: state.horizontal, depth: state.depth, aim: aim - i.distance };
+            }
+        };
+        
+        return Day2.calculate(input, reducer, { horizontal: 0, depth: 0, aim: 0 });
+    }
+
+    private static calculate(
+        input: string[], 
+        reducer: (state: Position, i: Instruction) => Position,
+        initialState: Position) : number {
+        const position = input
             .map(Day2.parse)
-            .reduce(reducer, { horizontal: 0, depth: 0});
+            .reduce(reducer, initialState);
 
         return position.horizontal * position.depth;
     }
@@ -41,4 +69,5 @@ interface Instruction {
 interface Position {
     horizontal: number;
     depth: number;
+    aim?: number;
 }

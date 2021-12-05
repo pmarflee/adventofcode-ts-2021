@@ -12,3 +12,7 @@ const instructions = [
 test('Test Part 1', () => {
     expect(Day.calculatePart1(instructions)).toBe(150);
 });
+
+test('Test Part 2', () => {
+    expect(Day.calculatePart2(instructions)).toBe(900);
+});
