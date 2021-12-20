@@ -52,7 +52,7 @@ export class Board {
         }
     }
 
-    public get isComplete() {
+    public get isComplete() : boolean {
         for (const range of this.rangesToCheck()) {
             if (range.every(number => isNaN(number))) {
                 return true;
