@@ -20,5 +20,9 @@ test('Test Parse Line Segments', () => {
 });
 
 test('Test Part 1', () => {
-    expect(Day.calculatePart1(input)).toBe(5);
+    expect(Day.calculate(input, 1)).toBe(5);
+})
+
+test('Test Part 2', () => {
+    expect(Day.calculate(input, 2)).toBe(12);
 })

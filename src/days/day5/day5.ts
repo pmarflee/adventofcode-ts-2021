@@ -13,18 +13,18 @@ export class Day5 {
         });
     }
 
-    public static calculatePart1(input: string[]) : number {
-        return [...Day5.parse(input)
+    public static calculate(input: string[], part: number) : number {
+        const map = Day5.parse(input)
             .reduce((map, segment) => {
-                return segment.path
+                return segment.getPath(part)
                     .reduce((map, location) => {
                         const key = `${location[0]},${location[1]}`,
                             value = map.get(key) ?? 0;
                         map.set(key, value + 1);
                         return map;
                     }, map);
-            }, new Map<string, number>())
-            .values()]
+            }, new Map<string, number>());
+        return [...map.values()]
             .filter(value => value > 1)
             .length;
     }
@@ -41,23 +41,36 @@ export class LineSegment {
         return this.x1 !== this.x2 && this.y1 !== this.y2;
     }
 
-    get path() : [number, number][] {
-        const locations: [number, number][] = [];
-        if (!this.isDiagonal) {
-            if (this.x1 === this.x2) {
-                const yStart = this.y1 > this.y2 ? this.y2 : this.y1,
-                    yEnd = this.y1 > this.y2 ? this.y1 : this.y2;
-                for (let y = yStart; y <= yEnd; y++) {
-                    locations.push([this.x1, y]);
-                }
-            } else {
-                const xStart = this.x1 > this.x2 ? this.x2 : this.x1,
-                    xEnd = this.x1 > this.x2 ? this.x1 : this.x2;
-                for (let x = xStart; x <= xEnd; x++) {
-                    locations.push([x, this.y1]);
-                }
-            }
+    getPath(part: number) : [number, number][] {
+        return part === 2 || !this.isDiagonal
+            ? [...this.getRange()]
+            : [];
+    }
+
+    private *getRange() : IterableIterator<[number, number]> {
+        const to = this.x1 !== this.x2
+            ? Math.max(this.x1, this.x2) - Math.min(this.x1, this.x2)
+            : Math.max(this.y1, this.y2) - Math.min(this.y1, this.y2);
+        let x = this.x1, 
+            y = this.y1,
+            xIncrement: number,
+            yIncrement: number;
+        if (this.x1 < this.x2) {
+            xIncrement = 1;
+        } else if (this.x1 > this.x2) {
+            xIncrement = -1;
+        } else {
+            xIncrement = 0;
         }
-        return locations;
+        if (this.y1 < this.y2) {
+            yIncrement = 1;
+        } else if (this.y1 > this.y2) {
+            yIncrement = -1;
+        } else {
+            yIncrement = 0;
+        }
+        for (let from = 0; from <= to; from++, x+=xIncrement, y+=yIncrement) {
+            yield [x, y];
+        }
     }
 }
