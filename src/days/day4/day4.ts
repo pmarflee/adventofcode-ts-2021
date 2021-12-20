@@ -55,7 +55,7 @@ export class Day4 {
 export class Board {
     private readonly numbers: number[][];
     private readonly marked: number[] = [];
-    private complete: boolean = false;
+    private complete = false;
 
     constructor(...args: number[][]) {
         this.numbers = args;
