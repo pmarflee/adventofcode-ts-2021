@@ -4,18 +4,21 @@ import { readLines } from '../util'
 const input = readLines('src/tests/day5.test.input.txt');
 
 const expected : LineSegment[] = [
-    { x1: 0, y1: 9, x2: 5, y2: 9 },
-    { x1: 8, y1: 0, x2: 0, y2: 8 },
-    { x1: 9, y1: 4, x2: 3, y2: 4 },
-    { x1: 2, y1: 2, x2: 2, y2: 1 },
-    { x1: 7, y1: 0, x2: 7, y2: 4 },
-    { x1: 6, y1: 4, x2: 2, y2: 0 },
-    { x1: 0, y1: 9, x2: 2, y2: 9 },
-    { x1: 3, y1: 4, x2: 1, y2: 4 },
-    { x1: 0, y1: 0, x2: 8, y2: 8 },
-    { x1: 5, y1: 5, x2: 8, y2: 2 }
-];
+    new LineSegment(0, 9, 5, 9),
+    new LineSegment(8, 0, 0, 8),
+    new LineSegment(9, 4, 3, 4),
+    new LineSegment(2, 2, 2, 1),
+    new LineSegment(7, 0, 7, 4),
+    new LineSegment(6, 4, 2, 0),
+    new LineSegment(0, 9, 2, 9),
+    new LineSegment(3, 4, 1, 4),
+    new LineSegment(0, 0, 8, 8),
+    new LineSegment(5, 5, 8, 2) ];
 
 test('Test Parse Line Segments', () => {
     expect(Day.parse(input)).toEqual(expected);
 });
+
+test('Test Part 1', () => {
+    expect(Day.calculatePart1(input)).toBe(5);
+})
