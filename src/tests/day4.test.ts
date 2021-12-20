@@ -28,8 +28,6 @@ const expected : Input = {
     ]
 };
 
-console.log(input);
-
 test('Test Parse Numbers', () => {
     expect(Day.parse(input).Numbers).toEqual(expected.Numbers);
 });
