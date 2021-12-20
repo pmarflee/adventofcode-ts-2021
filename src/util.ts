@@ -7,3 +7,7 @@ export function readNumbers(path: string) : number[] {
 export function readLines(path: string) : string[] {
     return readFileSync(path).toString("utf-8").split(/\r?\n/);
 }
+
+export function parseAsInt(string: string) : number {
+    return parseInt(string, 10);
+}
