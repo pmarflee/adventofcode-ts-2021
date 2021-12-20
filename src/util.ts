@@ -5,5 +5,5 @@ export function readNumbers(path: string) : number[] {
 }
 
 export function readLines(path: string) : string[] {
-    return readFileSync(path).toString("utf-8").split("\r\n");
+    return readFileSync(path).toString("utf-8").split(/\r?\n/);
 }
