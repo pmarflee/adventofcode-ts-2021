@@ -5,6 +5,7 @@ export function runAllDays() : void  {
   day1();
   day2();
   day3();
+  day4();
 }
 
 function day1() {
@@ -23,6 +24,11 @@ function day3() {
   const input = readLines('./input/day3.txt');
   execute(3, 1, () => Days.Day3.calculatePart1(input));
   execute(3, 2, () => Days.Day3.calculatePart2(input));
+}
+
+function day4() {
+  const input = readLines('./input/day4.txt');
+  execute(4, 1, () => Days.Day4.calculatePart1(input));
 }
 
 function execute(day: number, part: number, fn: () => number) {

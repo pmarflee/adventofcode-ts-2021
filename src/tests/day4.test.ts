@@ -35,3 +35,7 @@ test('Test Parse Numbers', () => {
 test('Test Parse Boards', () => {
     expect(Day.parse(input).Boards).toEqual(expected.Boards);
 });
+
+test('Test Part 1', () => {
+    expect(Day.calculatePart1(input)).toBe(4512);
+});
