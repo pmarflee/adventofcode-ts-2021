@@ -31,11 +31,31 @@ export class Day4 {
         }
         return 0;
     }
+
+    public static calculatePart2(input: string[]) : number {
+        const data = Day4.parse(input);
+        let completed = 0;
+        for (const number of data.Numbers) {
+            for (const board of data.Boards) {
+                if (!board.isComplete) {
+                    board.mark(number);
+                    if (board.isComplete) {
+                        completed++;
+                        if (completed === data.Boards.length) {
+                            return board.calculateScore();
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
 }
 
 export class Board {
     private readonly numbers: number[][];
     private readonly marked: number[] = [];
+    private complete: boolean = false;
 
     constructor(...args: number[][]) {
         this.numbers = args;
@@ -53,8 +73,10 @@ export class Board {
     }
 
     public get isComplete() : boolean {
+        if (this.complete) return true;
         for (const range of this.rangesToCheck()) {
             if (range.every(number => isNaN(number))) {
+                this.complete = true;
                 return true;
             }
         }

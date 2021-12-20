@@ -39,3 +39,7 @@ test('Test Parse Boards', () => {
 test('Test Part 1', () => {
     expect(Day.calculatePart1(input)).toBe(4512);
 });
+
+test('Test Part 2', () => {
+    expect(Day.calculatePart2(input)).toBe(1924);
+});

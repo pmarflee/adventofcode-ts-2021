@@ -29,6 +29,7 @@ function day3() {
 function day4() {
   const input = readLines('./input/day4.txt');
   execute(4, 1, () => Days.Day4.calculatePart1(input));
+  execute(4, 2, () => Days.Day4.calculatePart2(input));
 }
 
 function execute(day: number, part: number, fn: () => number) {
