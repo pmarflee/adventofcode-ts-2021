@@ -31,26 +31,28 @@ export class Day5 {
 }
 
 export class LineSegment {
+    private readonly isDiagonal: boolean;
+
     constructor(
         readonly x1: number, 
         readonly y1: number, 
         readonly x2: number,
-        readonly y2: number) {}
-
-    get isDiagonal() : boolean {
-        return this.x1 !== this.x2 && this.y1 !== this.y2;
-    }
+        readonly y2: number
+        ) {
+            this.isDiagonal = this.x1 !== this.x2 && this.y1 !== this.y2;
+        }
 
     getPath(part: number) : [number, number][] {
         return part === 2 || !this.isDiagonal
-            ? [...this.getRange()]
+            ? this.getRange()
             : [];
     }
 
-    private *getRange() : IterableIterator<[number, number]> {
-        const to = this.x1 !== this.x2
+    private getRange() : [number, number][] {
+        const to = (this.x1 !== this.x2
             ? Math.max(this.x1, this.x2) - Math.min(this.x1, this.x2)
-            : Math.max(this.y1, this.y2) - Math.min(this.y1, this.y2);
+            : Math.max(this.y1, this.y2) - Math.min(this.y1, this.y2)) + 1,
+            parts = new Array<[number, number]>(to);
         let x = this.x1, 
             y = this.y1,
             xIncrement: number,
@@ -69,8 +71,9 @@ export class LineSegment {
         } else {
             yIncrement = 0;
         }
-        for (let from = 0; from <= to; from++, x+=xIncrement, y+=yIncrement) {
-            yield [x, y];
+        for (let from = 0; from < to; from++, x+=xIncrement, y+=yIncrement) {
+            parts.push([x, y]);
         }
+        return parts;
     }
 }
