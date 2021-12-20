@@ -17,11 +17,8 @@ export class Day5 {
         const map = Day5.parse(input)
             .reduce((map, segment) => {
                 return segment.getPath(part)
-                    .reduce((map, location) => {
-                        const key = `${location[0]},${location[1]}`,
-                            value = map.get(key) ?? 0;
-                        map.set(key, value + 1);
-                        return map;
+                    .reduce((map, key) => {
+                        return map.set(key, (map.get(key) ?? 0) + 1);
                     }, map);
             }, new Map<string, number>());
         return [...map.values()]
@@ -42,17 +39,17 @@ export class LineSegment {
             this.isDiagonal = this.x1 !== this.x2 && this.y1 !== this.y2;
         }
 
-    getPath(part: number) : [number, number][] {
+    getPath(part: number) : string[] {
         return part === 2 || !this.isDiagonal
             ? this.getRange()
             : [];
     }
 
-    private getRange() : [number, number][] {
+    private getRange() : string[] {
         const to = (this.x1 !== this.x2
             ? Math.max(this.x1, this.x2) - Math.min(this.x1, this.x2)
             : Math.max(this.y1, this.y2) - Math.min(this.y1, this.y2)) + 1,
-            parts = new Array<[number, number]>(to);
+            parts = new Array<string>(to);
         let x = this.x1, 
             y = this.y1,
             xIncrement: number,
@@ -71,8 +68,8 @@ export class LineSegment {
         } else {
             yIncrement = 0;
         }
-        for (let from = 0; from < to; from++, x+=xIncrement, y+=yIncrement) {
-            parts.push([x, y]);
+        for (let i = 0; i < to; i++, x+=xIncrement, y+=yIncrement) {
+            parts[i] = `${x},${y}`;
         }
         return parts;
     }
