@@ -18,37 +18,25 @@ class ListOfFish {
     }
 
     get size() : number {
-        if (this.list.head === null) {
-            throw new Error('List cannot be empty');
-        }
+        let weight = 0;
 
-        let fish = this.list.head,
-            weight = 0;
-
-        do {
+        for (const fish of this.list) {
             weight += fish.weight;
-            fish = fish.next;
-        } while (fish !== null);
+        }
 
         return weight;
     }
 
     public nextDay() : void {
-        if (this.list.head === null || this.list.tail === null) {
-            throw new Error('List cannot be empty');
-        }
+        let weight = 0;
 
-        let fish = this.list.head,
-            weight = 0;
-
-        do {
+        for (const fish of this.list) {
             if (fish.nextDay() === FishTimerResult.CreateNewFish) {
                 weight += fish.weight;
             }
-            fish = fish.next;
-        } while (fish !== null);
+        }
 
-        this.list.tail.append(new Fish(weight));
+        this.list.append(new Fish(weight));
     }
 }
 
