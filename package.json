@@ -17,9 +17,9 @@
     "my-cli-tool": "./dist/esbuild/cli.js"
   },
   "scripts": {
-    "cli": "ts-node src/cli.ts",
+    "cli": "node --loader ts-node/esm --es-module-specifier-resolution=node ./src/cli.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
-    "test": "jest",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "clean": "rm -rf dist build package",
     "ts-node": "ts-node",
     "docs": "typedoc --entryPoints src/main.ts",
@@ -30,16 +30,19 @@
     "esbuild-node:watch": "esbuild src/cli.ts --bundle --platform=node --watch --sourcemap=external --outfile=dist/esbuild/cli.js"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.21",
+    "@types/jest": "^27.0.3",
     "@types/node": "^15.0.1",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "esbuild": "^0.11.11",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.14.6",
     "eslint": "^7.22.0",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.4",
-    "ts-node": "^9.1.1",
+    "jest": "^27.4.5",
+    "linked-list": "^3.0.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
     "typedoc": "^0.20.35",
     "typescript": "^4.2.3"
-  }
+  },
+  "type": "module"
 }

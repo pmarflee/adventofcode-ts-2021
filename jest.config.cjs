@@ -1,4 +1,10 @@
 module.exports = {
+  extensionsToTreatAsEsm: ['.ts'],
+  globals: {
+    'ts-jest': {
+      useESM: true
+    }
+  },
   roots: ['<rootDir>/src'],
   testMatch: [
     "**/__tests__/**/*.+(ts|tsx|js)",

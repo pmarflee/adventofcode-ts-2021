@@ -1,5 +1,5 @@
 import * as Days from './days/index'
-import { readNumbers, readLines } from './util'
+import { readNumbers, readNumbersCsv, readLines } from './util'
 
 export function runAllDays() : void  {
   day1();
@@ -7,6 +7,7 @@ export function runAllDays() : void  {
   day3();
   day4();
   day5();
+  day6();
 }
 
 function day1() {
@@ -37,6 +38,12 @@ function day5() {
   const input = readLines('./input/day5.txt');
   execute(5, 1, () => Days.Day5.calculate(input, 1));
   execute(5, 2, () => Days.Day5.calculate(input, 2));
+}
+
+function day6() {
+  const input = readNumbersCsv('./input/day6.txt');
+  execute(6, 1, () => Days.Day6.calculate(input, 80));
+  execute(6, 2, () => Days.Day6.calculate(input, 256));
 }
 
 function execute(day: number, part: number, fn: () => number) {
