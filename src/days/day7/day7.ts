@@ -33,10 +33,18 @@ function calculateFuel(input: number[], value: number, part: number) : number {
 
         if (part === 1) return sum + distance;
 
-        for (let i = 1; i <= distance; i++) {
-            sum += i;
+        let fuel = distanceFuelLookup.get(distance);
+        
+        if (typeof fuel !== 'number') {
+            fuel = 0;
+            for (let i = 1; i <= distance; i++) {
+                fuel += i;
+            }
+            distanceFuelLookup.set(distance, fuel);
         }
 
-        return sum;
+        return sum + fuel;
     }, 0);
 }
+
+const distanceFuelLookup = new Map<number, number>();
