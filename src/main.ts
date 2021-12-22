@@ -8,6 +8,7 @@ export function runAllDays() : void  {
   day4();
   day5();
   day6();
+  day7();
 }
 
 function day1() {
@@ -44,6 +45,11 @@ function day6() {
   const input = readNumbersCsv('./input/day6.txt');
   execute(6, 1, () => Days.Day6.calculate(input, 80));
   execute(6, 2, () => Days.Day6.calculate(input, 256));
+}
+
+function day7() {
+  const input = readNumbersCsv('./input/day7.txt');
+  execute(6, 1, () => Days.Day7(input));
 }
 
 function execute(day: number, part: number, fn: () => number) {
