@@ -1,27 +1,24 @@
-export default function calculate(input: number[]) : number {
-    return findLowestFuel(input.sort((a, b) => a - b));
-}
-
-function findLowestFuel(input: number[]) : number {
+export default function calculate(input: number[], part: number) : number {
+    input.sort((a, b) => a - b);
     const low = 0, 
         high = input.length - 1,
+        mid = low + ((high - low) >>> 1),
         initialIncrement = 1;
-    let index = low + ((high - low) >>> 1),
+    let index = mid,
         value = input[index],
-        fuel = calculateFuel(input, value),
+        fuel = calculateFuel(input, value, part),
         increment = 1,
-        next, nextValue, nextFuel;
+        nextValue, nextFuel;
 
     while (index >= low && index <= high) {
-        next = index + increment;
-        nextValue = input[next];
-        nextFuel = calculateFuel(input, nextValue);
-        
+        nextValue = value + increment;
+        nextFuel = calculateFuel(input, nextValue, part);
+
         if (fuel <= nextFuel) {
-            if (increment !== initialIncrement) break;
+            if (index != mid || increment !== initialIncrement) break;
             increment = -increment;
         } else {
-            index = next;
+            index += increment;
             value = nextValue;
             fuel = nextFuel;
         }
@@ -30,6 +27,16 @@ function findLowestFuel(input: number[]) : number {
     return fuel;
 }
 
-function calculateFuel(input: number[], value: number) : number {
-    return input.reduce((sum, v) => sum + Math.abs(v - value), 0);
+function calculateFuel(input: number[], value: number, part: number) : number {
+    return input.reduce((sum, v) => {
+        const distance = Math.abs(v - value);
+
+        if (part === 1) return sum + distance;
+
+        for (let i = 1; i <= distance; i++) {
+            sum += i;
+        }
+
+        return sum;
+    }, 0);
 }

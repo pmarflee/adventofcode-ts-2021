@@ -49,7 +49,8 @@ function day6() {
 
 function day7() {
   const input = readNumbersCsv('./input/day7.txt');
-  execute(6, 1, () => Days.Day7(input));
+  execute(7, 1, () => Days.Day7(input, 1));
+  execute(7, 2, () => Days.Day7(input, 2));
 }
 
 function execute(day: number, part: number, fn: () => number) {
