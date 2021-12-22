@@ -1,30 +1,27 @@
 export default function calculate(input: number[], part: number) : number {
     input.sort((a, b) => a - b);
-    const low = 0, 
-        high = input.length - 1,
-        mid = low + ((high - low) >>> 1),
-        initialIncrement = 1;
-    let index = mid,
-        value = input[index],
-        fuel = calculateFuel(input, value, part),
-        increment = 1,
-        nextValue, nextFuel;
+    let low = 0, 
+        high = input.length - 1;
 
-    while (index >= low && index <= high) {
-        nextValue = value + increment;
-        nextFuel = calculateFuel(input, nextValue, part);
+    while (low <= high) {
+        const mid = low + ((high - low) >>> 1),
+            midValue = input[mid],
+            midFuel = calculateFuel(input, midValue, part),
+            lowerFuel = calculateFuel(input, midValue - 1, part),
+            upperFuel = calculateFuel(input, midValue + 1, part);
 
-        if (fuel <= nextFuel) {
-            if (index != mid || increment !== initialIncrement) break;
-            increment = -increment;
-        } else {
-            index += increment;
-            value = nextValue;
-            fuel = nextFuel;
+        if (lowerFuel < midFuel) {
+            high = mid - 1;
+        } else if (upperFuel < midFuel) {
+            low = mid + 1;
+        } else return midFuel;
+
+        if (low > high) {
+            return Math.min(lowerFuel, upperFuel);
         }
     }
 
-    return fuel;
+    throw new Error('Unable to calculate lowest fuel');
 }
 
 function calculateFuel(input: number[], value: number, part: number) : number {
