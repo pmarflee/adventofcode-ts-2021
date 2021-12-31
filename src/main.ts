@@ -9,6 +9,7 @@ export function runAllDays() : void  {
   day5();
   day6();
   day7();
+  day8();
 }
 
 function day1() {
@@ -51,6 +52,11 @@ function day7() {
   const input = readNumbersCsv('./input/day7.txt');
   execute(7, 1, () => Days.Day7(input, 1));
   execute(7, 2, () => Days.Day7(input, 2));
+}
+
+function day8() {
+  const input = readLines('./input/day8.txt');
+  execute(8, 1, () => Days.Day8(input));
 }
 
 function execute(day: number, part: number, fn: () => number) {
