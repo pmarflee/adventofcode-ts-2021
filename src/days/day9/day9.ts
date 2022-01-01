@@ -22,16 +22,23 @@ function getAdjacentValues(heightMap: number[][], row: number, column: number) :
         .map(([row, column]) => heightMap[row][column]);
 }
 
-export default function calculate(input: string[]) : number {
-    const heightMap = parse(input);
+function calculatePart1(heightMap: number[][], row: number, column: number, current: number, sum: number) : number {
+    return getAdjacentValues(heightMap, row, column).every(value => value > current)
+        ? sum + current + 1
+        : sum;
+}
+
+const parts = [ calculatePart1 ];
+
+export default function calculate(input: string[], part: number) : number {
+    const heightMap = parse(input),
+        calculate = parts[part - 1];
     let sum = 0;
     
     for (let row = 0; row < heightMap.length; row++) {
         for (let column = 0; column < heightMap[row].length; column++) {
             const current = heightMap[row][column];
-            if (getAdjacentValues(heightMap, row, column).every(value => value > current)) {
-                sum += current + 1;
-            }
+            sum = calculate(heightMap, row, column, current, sum);
         }
     }
 

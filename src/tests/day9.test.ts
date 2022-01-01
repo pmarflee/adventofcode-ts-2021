@@ -4,5 +4,5 @@ import { readLines } from '../util'
 const input = readLines('src/tests/day9.test.input.txt');
 
 test('Test Part 1', () => {
-    expect(calculate(input)).toBe(15);
+    expect(calculate(input, 1)).toBe(15);
 });
