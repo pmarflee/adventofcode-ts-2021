@@ -30,13 +30,13 @@ function getBasinSize(start: [number, number], heightMap: number[][]) : number {
     while (queue.length > 0) {
         const point = queue.shift();
         if (point === undefined) break;
-        const [row, column] = point,
-            value = heightMap[row][column];
+        const [row, column] = point;
+        if (visited[row][column]) continue;
+        const value = heightMap[row][column];
         visited[row][column] = true;
         if (value === 9) continue;
         sum++
         getAdjacentValues(heightMap, row, column)
-            .filter(([_, row1, column1]) => !queue.some(([rowQ, colQ]) => row1 === rowQ && colQ === column1) && !visited[row1][column1])
             .forEach(([_, row1, column1]) => queue.push([row1, column1]));
     }
 
