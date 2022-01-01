@@ -5,42 +5,72 @@ function parse(input: string[]) : number[][] {
 }
 
 const offsets : [number, number][] = [
-    [-1, -1],
     [-1, 0],
-    [-1, 1],
     [0, 1],
-    [1, 1],
     [1, 0],
-    [1, -1],
     [0, -1]
 ];
 
-function getAdjacentValues(heightMap: number[][], row: number, column: number) : number[] {
+function getAdjacentValues(heightMap: number[][], row: number, column: number) : [number, number, number][] {
     return offsets
         .map(([offsetY, offsetX]) => [row + offsetY, column + offsetX])
         .filter(([row, column]) => row >= 0 && row < heightMap.length && column >= 0 && column < heightMap[row].length)
-        .map(([row, column]) => heightMap[row][column]);
+        .map(([row, column]) => [heightMap[row][column], row, column]);
 }
 
-function calculatePart1(heightMap: number[][], row: number, column: number, current: number, sum: number) : number {
-    return getAdjacentValues(heightMap, row, column).every(value => value > current)
-        ? sum + current + 1
-        : sum;
+function isLowPoint(value: number, adjacentValues: [number, number, number][]) : boolean {
+    return adjacentValues.every(([v, _row, _column]) => v > value);
 }
 
-const parts = [ calculatePart1 ];
-
-export default function calculate(input: string[], part: number) : number {
-    const heightMap = parse(input),
-        calculate = parts[part - 1];
+function getBasinSize(start: [number, number], heightMap: number[][]) : number {
+    const queue = [ start ],
+        visited = heightMap.map(line => new Array<boolean>(line.length));
     let sum = 0;
-    
-    for (let row = 0; row < heightMap.length; row++) {
-        for (let column = 0; column < heightMap[row].length; column++) {
-            const current = heightMap[row][column];
-            sum = calculate(heightMap, row, column, current, sum);
-        }
+
+    while (queue.length > 0) {
+        const point = queue.shift();
+        if (point === undefined) break;
+        const [row, column] = point,
+            value = heightMap[row][column];
+        visited[row][column] = true;
+        if (value === 9) continue;
+        sum++
+        getAdjacentValues(heightMap, row, column)
+            .filter(([_, row1, column1]) => !queue.some(([rowQ, colQ]) => row1 === rowQ && colQ === column1) && !visited[row1][column1])
+            .forEach(([_, row1, column1]) => queue.push([row1, column1]));
     }
 
     return sum;
+}
+
+function calculatePart1(lowPoints: [number, number][], heightMap: number[][]) : number {
+    return lowPoints.reduce((sum, [row, column]) => sum + heightMap[row][column] + 1, 0);
+}
+
+function calculatePart2(lowPoints: [number, number][], heightMap: number[][]) : number {
+    return lowPoints
+        .map(point => getBasinSize(point, heightMap))
+        .sort((a, b) => b - a)
+        .slice(0, 3)
+        .reduce((sum, value) => sum * value);
+}
+
+const parts = [ calculatePart1, calculatePart2 ];
+
+export default function calculate(input: string[], part: number) : number {
+    const heightMap = parse(input),
+        calculate = parts[part - 1],
+        lowPoints = [] as [number, number][];
+    
+    for (let row = 0; row < heightMap.length; row++) {
+        for (let column = 0; column < heightMap[row].length; column++) {
+            const current = heightMap[row][column],
+                adjacentValues = getAdjacentValues(heightMap, row, column);
+            if (isLowPoint(current, adjacentValues)) {
+                lowPoints.push([row, column]);
+            }
+        }
+    }
+
+    return calculate(lowPoints, heightMap);
 }
