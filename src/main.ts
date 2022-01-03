@@ -12,6 +12,7 @@ export function runAllDays() : void  {
   day8();
   day9();
   day10();
+  day11();
 }
 
 function day1() {
@@ -72,6 +73,11 @@ function day10() {
   const input = readLines('./input/day10.txt');
   execute(10, 1, () => Days.Day10(input, 1));
   execute(10, 2, () => Days.Day10(input, 2));
+}
+
+function day11() {
+  const input = readLines('./input/day11.txt');
+  execute(11, 1, () => Days.Day11(input, 1));
 }
 
 function execute(day: number, part: number, fn: () => number) {
