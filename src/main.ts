@@ -78,6 +78,7 @@ function day10() {
 function day11() {
   const input = readLines('./input/day11.txt');
   execute(11, 1, () => Days.Day11(input, 1));
+  execute(11, 2, () => Days.Day11(input, 2));
 }
 
 function execute(day: number, part: number, fn: () => number) {

@@ -40,6 +40,15 @@ class Grid extends EventEmitter {
         return this.locations.map(line => line.map(o => o.energy));
     }
 
+    public get isSynchronized() : boolean {
+        for (const octopus of this.octopuses()) {
+            if (octopus.energy !== 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private createOctopuses(energyValues: number[][]) : Octopus[][] {
         return energyValues.map((line, i) => line.map((value, j) => {
             const octopus = new Octopus(j, i, value, this);
@@ -106,19 +115,40 @@ class Octopus extends EventEmitter {
     }
 }
 
-export default function calculate(input: string[], _part: number) : number {
-    const energyValues = input.map(line => line.split('').map(parseAsInt)),
-        grid = new Grid(energyValues),
-        steps = 100;
-
+function calculatePart1(grid: Grid) : number {
     logState(0, grid);
 
-    for (let i = 1; i <= steps; i++) {
+    for (let i = 1; i <= 100; i++) {
         grid.step();
         logState(i, grid)
     }
 
     return grid.flashes;
+}
+
+function calculatePart2(grid: Grid) : number {
+    let step = 0;
+
+    do {
+        grid.step();
+        step++;
+    } while (!grid.isSynchronized);
+
+    return step;
+}
+
+export default function calculate(input: string[], part: number) : number {
+    const energyValues = input.map(line => line.split('').map(parseAsInt)),
+        grid = new Grid(energyValues);
+
+    switch (part) {
+        case 1:
+            return calculatePart1(grid);
+        case 2:
+            return calculatePart2(grid);
+        default:
+            throw new Error('Invalid part. Should be 1 or 2');
+    }
 }
 
 function logState(step: number, grid: Grid) : void {
